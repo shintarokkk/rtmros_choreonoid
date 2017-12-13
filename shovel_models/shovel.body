@@ -1,0 +1,19 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: shovel
+
+links:
+  -
+    name: shovel
+    translation: [0, 0, 0]
+    rotation: [0, 0, 1, 0]
+    jointType: fixed
+    elements:
+      Transform:
+        translation: [0, 0, 0]
+        rotation: [1, 0, 0, 90]
+        elements:
+          Shape:
+            geometry: { type: Resource, uri: "shovel-all.STL" }
+            appearance: { material: { diffuseColor: [0.310, 0.0, 0.698] }}
