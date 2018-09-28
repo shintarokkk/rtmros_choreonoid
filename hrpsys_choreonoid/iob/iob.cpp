@@ -292,9 +292,7 @@ int read_control_mode(int id, joint_control_mode *s)
 {
     CHECK_JOINT_ID(id);
     if(isPosTq[id]){
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
       *s = JCM_POSITION_TORQUE;
-#endif
     }else{
       *s = JCM_POSITION;
     }
@@ -307,11 +305,9 @@ int write_control_mode(int id, joint_control_mode s)
     if(s == JCM_POSITION){
       isPosTq[id] = false;
     }
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
     if(s == JCM_POSITION_TORQUE){
       isPosTq[id] = true;
     }
-#endif
     return TRUE;
 }
 
@@ -415,7 +411,7 @@ int read_pgain(int id, double *gain)
 int write_pgain(int id, double gain)
 {
     CHECK_JOINT_ID(id);
-#if 0
+#if 1
     if (id == 9)
     std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
 #endif
@@ -442,6 +438,50 @@ int write_dgain(int id, double gain)
     std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
 #endif
     Dgain[id] = gain;
+    return TRUE;
+}
+
+int read_torque_pgain(int id, double *gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
+#endif
+    *gain = tqPgain[id];
+    return TRUE;
+}
+
+int write_torque_pgain(int id, double gain)
+{
+    CHECK_JOINT_ID(id);
+#if 1
+    if (id == 9)
+    std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
+#endif
+    tqPgain[id] = gain;
+    return TRUE;
+}
+
+int read_torque_dgain(int id, double *gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
+#endif
+    *gain = tqDgain[id];
+    return TRUE;
+}
+
+int write_torque_dgain(int id, double gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
+#endif
+    tqDgain[id] = gain;
     return TRUE;
 }
 
@@ -553,9 +593,6 @@ int write_dio(unsigned short buf)
     return FALSE;
 }
 
-///
-///
-///
 int open_iob(void)
 {
     std::cerr << "choreonoid IOB will open" << std::endl;
@@ -567,6 +604,7 @@ int open_iob(void)
         isPosTq[i] = false;
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
+
 
     self_ptr->bindParameter("pdgains_sim_file_name", gain_fname, "");
     self_ptr->bindParameter("debugLevel", m_debugLevel, "0");
@@ -617,10 +655,6 @@ int open_iob(void)
     std::cerr << "choreonoid IOB is opened" << std::endl;
     return TRUE;
 }
-///
-/// called from RobotHardware_choreonoid
-/// update sensor date
-///
 void iob_update(void)
 {
     if(ip_angleIn->isNew()) {
@@ -736,11 +770,9 @@ void iob_update(void)
         gyros[0][2] = m_gyrometer_sim.data.avz;
       }
     }
+
     //std::cerr << "tm: " << m_angleIn.tm.sec << " / " << m_angleIn.tm.nsec << std::endl; 
 }
-///
-/// called from RobotHardware_choreonoid
-///
 void iob_set_torque_limit(std::vector<double> &vec)
 {
   tlimit.resize(vec.size());
@@ -750,10 +782,6 @@ void iob_set_torque_limit(std::vector<double> &vec)
     std::cerr << ", tlimit: " << tlimit[i] << std::endl;
   }
 }
-///
-/// called from RobotHardware_choreonoid
-/// update command to simulated robot
-///
 void iob_finish(void)
 {
     //* *//
@@ -777,9 +805,15 @@ void iob_finish(void)
       if(isPosTq[i]){
         // position & torque control
         //ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] - (tq - tq_ref) * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
-        ctq = -(q - q_ref) *   Pgain[i] / (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] / (tqPgain[i] + 1)
-                +  tq_ref  * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
+          //std::cout << "position torque mode" << std::endl;
+          //std::cout << "Pgain["<<i<<"]="<<Pgain[i]<<", tqPgain["<<i<<"]="<<tqPgain[i] << std::endl;
+        ctq = -(q - q_ref) *   Pgain[i] * (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] * (tqPgain[i] + 1)
+                +  tq_ref;
+        //std::cout << "com_torque[" << i << "] = " << com_torque[i] << ", tq[" << i << "] = " << tq_ref << std::endl;
+        // ctq = -(q - q_ref) *   Pgain[i] / (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] / (tqPgain[i] + 1)
+        //         +  tq_ref  * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
       } else {
+          //std::cout << "position only mode" << std::endl;
         ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i]; // simple PD control
       }
 
@@ -1043,89 +1077,7 @@ int number_of_thermometers()
 {
     return 0;
 }
-#endif
 
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 3
-int write_command_acceleration(int id, double acc)
-{
-    return FALSE;
-}
-
-int write_command_accelerations(const double *accs)
-{
-    return FALSE;
-}
-
-int write_joint_inertia(int id, double mn)
-{
-    return FALSE;
-}
-
-int write_joint_inertias(const double *mns)
-{
-    return FALSE;
-}
-
-int read_pd_controller_torques(double *torques)
-{
-    return FALSE;
-}
-
-int write_disturbance_observer(int com)
-{
-    return FALSE;
-}
-
-int write_disturbance_observer_gain(double gain)
-{
-    return FALSE;
-}
-#endif
-
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
-int read_torque_pgain(int id, double *gain)
-{
-    CHECK_JOINT_ID(id);
-#if 0
-    if (id == 9)
-    std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
-#endif
-    *gain = tqPgain[id];
-    return TRUE;
-}
-
-int write_torque_pgain(int id, double gain)
-{
-    CHECK_JOINT_ID(id);
-#if 0
-    if (id == 9)
-    std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
-#endif
-    tqPgain[id] = gain;
-    return TRUE;
-}
-
-int read_torque_dgain(int id, double *gain)
-{
-    CHECK_JOINT_ID(id);
-#if 0
-    if (id == 9)
-    std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
-#endif
-    *gain = tqDgain[id];
-    return TRUE;
-}
-
-int write_torque_dgain(int id, double gain)
-{
-    CHECK_JOINT_ID(id);
-#if 0
-    if (id == 9)
-    std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
-#endif
-    tqDgain[id] = gain;
-    return TRUE;
-}
 #endif
 
 int read_driver_temperature(int id, unsigned char *v)
@@ -1225,4 +1177,7 @@ int read_digital_output(char *doutput)
     return FALSE;
 }
 
+int read_pd_controller_torques(double *torques){
+    return FALSE;
+}
 
