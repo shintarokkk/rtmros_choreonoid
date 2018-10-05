@@ -17,8 +17,8 @@
   <arg name="USE_TORQUEFILTER"        default="false" />
   <!--arg name="USE_IMAGESENSOR" default="false" /-->
   <arg name="USE_EMERGENCYSTOPPER"    default="true"  />
-  <arg name="USE_REFERENCEFORCEUPDATER" default="true" />
-  <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" default="true" />
+  <arg name="USE_REFERENCEFORCEUPDATER" default="false" />
+  <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" default="false" />
   <arg name="USE_HRPSYS_PROFILE"      default="true"  />
   <arg name="USE_VELOCITY_OUTPUT"     default="true"  />
 
