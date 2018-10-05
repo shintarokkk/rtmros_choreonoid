@@ -28,6 +28,9 @@ class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             ['log', "DataLogger"]
             ]
 
+    def myconnect (self):
+        connectPorts(self.st.port("tau"), self.rh.port("tauRef"))
+
     def defJointGroups (self):
         rleg_group = ['rleg', ['RLEG_JOINT0', 'RLEG_JOINT1', 'RLEG_JOINT2', 'RLEG_JOINT3', 'RLEG_JOINT4', 'RLEG_JOINT5']]
         lleg_group = ['lleg', ['LLEG_JOINT0', 'LLEG_JOINT1', 'LLEG_JOINT2', 'LLEG_JOINT3', 'LLEG_JOINT4', 'LLEG_JOINT5']]
@@ -44,9 +47,11 @@ if __name__ == '__main__':
     [sys.argv, connect_constraint_force_logger_ports] = hcf.parse_arg_for_connect_ports(sys.argv)
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
+        hcf.myconnect()
         hcf.startABSTIMP()
     elif len(sys.argv) > 1 :
         hcf.init(sys.argv[1], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
+        hcf.myconnect()
         hcf.startABSTIMP()
     else :
         hcf.init(connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
