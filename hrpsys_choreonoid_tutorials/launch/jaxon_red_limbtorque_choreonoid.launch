@@ -9,10 +9,10 @@
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
-  <arg name="USE_VISION" default="true" />
+  <arg name="USE_VISION" default="false" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
-  <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="LAUNCH_FOOTCOORDS" default="false" />
 
   <!-- robot dependant settings -->
   <arg if="$(arg USE_ROBOTHARDWARE)"
