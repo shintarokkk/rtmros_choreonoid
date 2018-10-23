@@ -19,9 +19,9 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             ['rmfo', "RemoveForceSensorLinkOffset"],
             ['es', "EmergencyStopper"],
             ['ic', "ImpedanceController"],
-            ['ltc', 'LimbTorqueController'],
             ['abc', "AutoBalancer"],
             ['st', "Stabilizer"],
+            ['ltc', 'LimbTorqueController'],
             # ['tc', "TorqueController"],
             # ['te', "ThermoEstimator"],
             # ['tl', "ThermoLimiter"],
@@ -37,6 +37,7 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             connectPorts(self.rh.port("q"), self.ltc.port("qCurrent"))
             connectPorts(self.rh.port("dq"), self.ltc.port("dqCurrent"))
             connectPorts(self.rh.port("tau"), self.ltc.port("tqCurrent"))
+            connectPorts(self.st.port("q"), self.ltc.port("qRef"))
             connectPorts(self.ltc.port("tq"),self.rh.port("tauRef"))
             if StrictVersion(self.seq_version) >= StrictVersion('315.3.0'):
                 connectPorts(self.sh.port("basePosOut"), self.ltc.port("basePosIn"))
@@ -51,7 +52,6 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
         '''!@brief
         Get list of controller list that need to control joint angles
         '''
-        #controller_list = [self.es, self.ic, self.ltc, self.abc, self.st, self.co, self.hes, self.el]
         controller_list = [self.es, self.ic, self.abc, self.st, self.ltc, self.co, self.hes, self.el]
         return filter(lambda c: c != None, controller_list)  # only return existing controllers
 
