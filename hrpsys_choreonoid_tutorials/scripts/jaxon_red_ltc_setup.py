@@ -39,9 +39,9 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             connectPorts(self.rh.port("tau"), self.ltc.port("tqCurrent"))
             connectPorts(self.st.port("q"), self.ltc.port("qRef"))
             connectPorts(self.ltc.port("tq"),self.rh.port("tauRef"))
-            if StrictVersion(self.seq_version) >= StrictVersion('315.3.0'):
-                connectPorts(self.sh.port("basePosOut"), self.ltc.port("basePosIn"))
-                connectPorts(self.sh.port("baseRpyOut"), self.ltc.port("baseRpyIn"))
+            connectPorts(self.kf.port("rpy"), self.ltc.port("rpy"))
+            connectPorts(self.abc.port("basePosOut"), self.ltc.port("basePosIn"))
+            connectPorts(self.abc.port("baseRpyOut"), self.ltc.port("baseRpyIn"))
 
     def startLTC (self):
         if self.ltc:
