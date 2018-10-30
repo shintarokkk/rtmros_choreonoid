@@ -88,7 +88,7 @@ compile_rbrain_model_for_closed_robots(JAXON_JVRC JAXON_JVRC JAXON_JVRC
   --conf-file-option "ltc_dgain: 10,10,10,10"
   --conf-file-option "ltc_cgain: 300,300,300,300"
   --conf-file-option "ltc_rgain: 1.0,1.0,1.0,1.0"
-  --conf-file-option "ltc_collision_threshold: 10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0'|'10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0'|'10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0'|'10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0"
+  --conf-file-option "ltc_collision_threshold: 15.0,15.0,15.0,15.0,15.0,15.0,15.0,15.0'|'15.0,15.0,15.0,15.0,15.0,15.0,15.0,15.0'|'15.0,15.0,15.0,15.0,15.0,15.0,15.0,15.0'|'15.0,15.0,15.0,15.0,15.0,15.0,15.0,15.0"
   --conf-file-option "ltc_climit: 30.0,35.0,40.0,40.0,18.0,22.0,30.0,35.0,40.0,40.0,18.0,22.0,40.0,40.0,20.0,15.0,15.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,100.0,100.0,100.0,100.0"
   --conf-file-option "abc_leg_offset: 0.0, 0.1, 0.0"
   --conf-file-option "end_effectors: rleg,RLEG_JOINT5,WAIST,0.0,0.0,-0.1,0.0,0.0,0.0,0.0, lleg,LLEG_JOINT5,WAIST,0.0,0.0,-0.1,0.0,0.0,0.0,0.0, rarm,RARM_JOINT7,CHEST_JOINT2,0.0,0.055,-0.217,0,1.0,0.0,1.5708, larm,LARM_JOINT7,CHEST_JOINT2,0.0,-0.055,-0.217,0,1.0,0.0,1.5708,"
