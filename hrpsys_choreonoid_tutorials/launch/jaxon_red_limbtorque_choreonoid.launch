@@ -78,6 +78,7 @@
     <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
     <arg name="USE_REFERENCEFORCEUPDATER" value="false" />
     <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" value="false" />
+    <arg name="USE_VELOCITY_OUTPUT" default="true" />
   </include>
 
   <!--                     -->
