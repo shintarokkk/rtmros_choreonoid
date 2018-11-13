@@ -86,7 +86,7 @@ compile_rbrain_model_for_closed_robots(JAXON_JVRC JAXON_JVRC JAXON_JVRC
   --conf-file-option "pdgains.file_name: ${PROJECT_SOURCE_DIR}/models/JAXON_JVRC.PDgains.sav"
   --conf-file-option "ltc_pgain: 300,300,300,300"
   --conf-file-option "ltc_dgain: 10,10,10,10"
-  --conf-file-option "ltc_ee_pgain: 600,600,600,10,10,10"
+  --conf-file-option "ltc_ee_pgain: 400,400,400,250,250,250"
   --conf-file-option "ltc_ee_dgain: 30,30,30,50,50,50"
   --conf-file-option "ltc_cgain: 300,300,300,300"
   --conf-file-option "ltc_rgain: 1.0,1.0,1.0,1.0"
