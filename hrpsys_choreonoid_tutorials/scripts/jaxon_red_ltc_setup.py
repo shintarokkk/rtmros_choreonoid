@@ -42,6 +42,11 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             connectPorts(self.kf.port("rpy"), self.ltc.port("rpy"))
             connectPorts(self.abc.port("basePosOut"), self.ltc.port("basePosIn"))
             connectPorts(self.abc.port("baseRpyOut"), self.ltc.port("baseRpyIn"))
+        if self.rmfo:
+            for sen in filter(lambda x: x.type == "Force", self.sensors):
+                if self.ltc:
+                    connectPorts(self.rmfo.port("off_" + sen.name),
+                                 self.ltc.port(sen.name))
 
     def startLTC (self):
         if self.ltc:
