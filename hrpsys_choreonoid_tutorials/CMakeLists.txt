@@ -182,6 +182,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid.in ${PROJEC
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid @ONLY)
 
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_SHOVEL_on_the_BLOCK.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_SHOVEL_on_the_BLOCK.cnoid @ONLY)
 
 ###
 #JAXON_BLUE conid
