@@ -335,6 +335,19 @@ int read_actual_torques(double *torques)
     return TRUE;
 }
 
+int read_estimated_torques(double *torques)
+{
+  for (int i=0; i<number_of_joints(); i++){
+    torques[i] = act_torque[i];
+  }
+  return TRUE;
+}
+
+int read_estimated_torque(int id, double *torque)
+{
+  return FALSE;
+}
+
 int read_command_torque(int id, double *torque)
 {
     CHECK_JOINT_ID(id);

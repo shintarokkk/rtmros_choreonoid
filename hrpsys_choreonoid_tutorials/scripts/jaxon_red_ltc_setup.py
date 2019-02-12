@@ -44,6 +44,9 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             connectPorts(self.abc.port("baseRpyOut"), self.ltc.port("baseRpyIn"))
             connectPorts(self.ltc.port("emergencySignal"), self.es.port("limbemergencySignal"))
             self.connectLoggerPort(self.abc, "sbpCogOffset")
+            self.connectLoggerPort(self.seq, "qRef")
+            self.connectLoggerPort(self.seq, "dqRef")
+            self.connectLoggerPort(self.rh, "esttau")
             for sen in filter(lambda x: x.type == "Force", self.sensors):
                 if (isConnected(self.es.port(sen.name + "Out"),
                                 self.abc.port("ref_" + sen.name))):
